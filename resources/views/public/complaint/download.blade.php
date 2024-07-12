@@ -1,12 +1,7 @@
-@php
-  use Carbon\Carbon;
-  $file = App\Models\File::show()->orderByDesc('created_at')->paginate(5);
-@endphp
-
 @extends('layouts.landing')
 
 @section('content')
-  <section class="w-full px-2 md:px-0 max-w-screen-md mx-auto py-10 space-y-4">
+  <section class="w-full max-w-screen-md mx-auto py-10 space-y-4">
     <nav class="flex" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
         <li class="inline-flex items-center">
@@ -26,28 +21,20 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="m1 9 4-4-4-4" />
             </svg>
-            <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Dokumen</span>
+            <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">
+              Pengaduan</span>
           </div>
         </li>
       </ol>
     </nav>
-    <h3 class="text-3xl font-bold">Dokumen</h3>
-    <hr>
-    <div class="grid gap-4">
-      @foreach ($file as $item)
-        <div class="bg-white space-y-1 rounded-md p-2  border">
-          <div class=" flex gap-1 items-center">
-            <p class="bg-green-600 rounded-sm px-1 text-sm font-light text-white">{{ $item->category->title }}</p>
-            <p>
-            <p>&#x2022;</p>
-            </p>
-            <p class="font-medium text-sm">{{ Carbon::parse($item->created_at)->translatedFormat('l, j F Y') }}</p>
-          </div>
-          <a href="/dokumen/{{ $item->slug }}"
-            class="text-lg hover:underline hover:text-green-600 font-medium text-slate-600 line-clamp-3">{{ $item->title }}</a>
-        </div>
-      @endforeach
+    <h3 class="text-3xl font-bold">Pengaduan</h3>
+
+    <div class="mt-10 space-y-1">
+      <p class="text-2xl font-bold ">Terima Kasih</p>
+      <p>Pengaduan anda telah diterima, download file berikut sebagai bukti pengaduan</p>
+      <div class="mt-2">
+        <a href="{{ route('complaint.download.file', $id) }}" class="x px-2 text-white py-1 bg-green-600 rounded-md">Download</a>
+      </div>
     </div>
-    {{ $file->links() }}
   </section>
 @endsection

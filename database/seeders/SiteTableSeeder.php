@@ -14,7 +14,7 @@ class SiteTableSeeder extends Seeder
     public function run(): void
     {
         Site::create([
-            'nama_site' => 'SiKONTAN',
+            'nama_site' => 'JagaZapin',
             'logo' => '',
             'favicon' => '',
             'hp' => '',

@@ -134,9 +134,9 @@
                 {{-- kejati
                 polda
                 bpn --}}
-                
+
                 <li class="ms-3">
-                    <a class="text-body-secondary" href="https://www.facebook.com/profile.php?id=61561398347698&mibextid=a3pxOyd5sDEt01RW" target="_blank">
+                    <a class="text-body-secondary" href="https://www.facebook.com/profile.php?id=61561398347698&mi  bextid=a3pxOyd5sDEt01RW" target="_blank">
                         <i class="bi-facebook fs-5"></i>
                     </a>
                 </li>

@@ -1,79 +1,51 @@
 @php
-    use Carbon\Carbon;
-    $data = App\Models\File::show()->where('slug', $slug)->first();
+  use Carbon\Carbon;
+  $data = App\Models\File::show()->where('slug', $slug)->first();
 @endphp
 
-@extends('layouts.app')
+@extends('layouts.landing')
 
-@section('container')
-    <section class="container py-4">
-        <div class="row mt-5 pt-5">
-            <div class="col-12 col-md-9">
-                <div class="row g-4">
-                    @if (!$data)
-                        <div class="col-12">
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a wire:navigate.hover href="/">Beranda</a></li>
-                                <li class="breadcrumb-item">Dokumen</li>
-                            </ul>
-                            <h1 class="mb-5">
-                                Dokumen
-                            </h1>
-                            <div class="col-12">
-                                <p class="fs-5 text-danger mb-5 pb-5">
-                                    Hasil tidak ditemukan.
-                                </p>
-                            </div>
-                        </div>
-                    @else
-                        <div class="col-12">
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a wire:navigate.hover href="/">Beranda</a></li>
-                                <li class="breadcrumb-item">Dokumen</li>
-                                <li class="breadcrumb-item d-inline-block text-truncate">
-                                    {{ Str::limit(strip_tags($data->title), 50, '...') }}
-                                </li>
-                            </ul>
-                            <div class="ratio ratio-1x1 my-5">
-                                <embed type="application/pdf" src=" {{ asset('storage/' . $data->attachment) }}"></embed>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
+@section('content')
+  <section class="w-full px-2 md:px-0 max-w-screen-md mx-auto py-10 space-y-4">
+    <nav class="flex" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+        <li class="inline-flex items-center">
+          <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-green-600 ">
+            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path
+                d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+            </svg>
+            Beranda
+          </a>
+        </li>
+        <li aria-current="page">
+          <div class="flex items-center">
+            <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 9 4-4-4-4" />
+            </svg>
+            <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Dokumen</span>
+          </div>
+        </li>
+        <li aria-current="page">
+          <div class="flex items-center">
+            <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 9 4-4-4-4" />
+            </svg>
+            <span
+              class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">{{ Str::limit(strip_tags($data->title), 30, '...') }}</span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+    <h3 class="text-3xl font-bold">{{ $data->title }}</h3>
 
-            <div class="col-12 col-md-3">
-                <div class="card bg-transparent border-2">
-                    <div class="card-body">
-                        <div>
-                            <h4 class="fw-semibold border-start border-5 border-secondary-subtle mb-4 ps-2">
-                                Informasi
-                            </h4>
-                            @if (!$data)
-                                <h6>Tidak ada data yang ditampilkan</h6>
-                            @else
-                                <img src="{{ $data->file ? asset('storage/' . $data->file) : 'https://source.unsplash.com/400x600/?nature,forest' }}"
-                                    alt="image {{ $data->title }}" class="w-100 rounded-2 bg-secondary-subtle mb-3">
-                                <h6 class="text-secondary">Judul</h6>
-                                <h6> {{ $data->title }} </h6>
-                                <h6 class="text-secondary">Kategori</h6>
-                                <h6> {{ $data->category->title }}</h6>
-                                <h6 class="text-secondary">Dibuat Pada</h6>
-                                <h6>{{ Carbon::parse($data->created_at)->translatedFormat('l, j F Y') }}</h6>
-                                <h6 class="text-secondary">Terakhir Diperbarui</h6>
-                                <h6>{{ Carbon::parse($data->updated_at)->translatedFormat('l, j F Y') }}</h6>
-                                <div class="d-grid gap-2 mt-4">
-                                    <a href="/dokumen/download/{{ $data->slug }}"
-                                        class="btn btn-primary rounded-pill px-3 py-2">
-                                        <i class="bi-download me-2"></i>
-                                        Unduh
-                                    </a>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <iframe class="w-full h-screen"
+      src="/pdfjs/web/viewer.html?file={{ asset('storage/' . $data->attachment) ?? '/default.pdf' }}&zoom=150&toolbar=0" frameborder="0"></iframe>
+
+  </section>
 @endsection

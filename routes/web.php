@@ -21,9 +21,18 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('pengaduan')->controller(Public\ComplaintController::class)->group(function () {
     Route::get('/', 'create')->name('complaint.create');
     Route::post('/store', 'store')->name('complaint.store');
+    Route::get('/view-download/{id}', 'viewDownload')->name('complaint.download.view');
+    Route::get('/download/{id}', 'download')->name('complaint.download.file');
 });
 
 Route::prefix('kritik-saran')->controller(Public\FeedbackController::class)->group(function () {
     Route::get('/', 'create')->name('feedback.create');
     Route::post('/store', 'store')->name('feedback.store');
+});
+
+// Landing
+Route::prefix('landing')->group(function () {
+    Route::get('/', function () {
+        return view('landing.index');
+    });
 });
