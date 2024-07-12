@@ -1,314 +1,230 @@
-@extends('layouts.app')
+@extends('layouts.landing')
 
-@section('container')
-    <section class="container pt-5">
-        <div class="row mt-5 pt-5">
-            <div class="col-12 ">
-                <ul class="breadcrumb mb-5">
-                    <li class="breadcrumb-item"><a wire:navigate.hover href="/">Beranda</a></li>
-                    <li class="breadcrumb-item">Pengaduan</li>
-                </ul>
-            </div>
+@section('content')
+  <section class="w-full max-w-screen-md mx-auto py-10 space-y-4">
+    <nav class="flex" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+        <li class="inline-flex items-center">
+          <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-green-600 ">
+            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path
+                d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+            </svg>
+            Beranda
+          </a>
+        </li>
+        <li aria-current="page">
+          <div class="flex items-center">
+            <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 9 4-4-4-4" />
+            </svg>
+            <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">
+              Pengaduan</span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+    <h3 class="text-3xl font-bold">Pengaduan</h3>
+
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+
+    <form action="{{ route('complaint.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+      @csrf
+      @method('POST')
+      {{-- Pelapor --}}
+      <div class="grid max-w-lg gap-4 bg-white border p-2 rounded">
+        <div class="pb-2 border-b-2">
+          <p class="text-2xl font-semibold">Pelapor</p>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-6">
-                <h3 class="text-primary">
-                    Layanan Aspirasi dan Pengaduan Online Masyarakat
-                </h3>
-                <h5 class="text-secondary">
-                    Sampaikan laporan Anda langsung kepada kami
-                </h5>
-
-                @php
-                    $message = session('message');
-                    $alert = session('alert');
-                    $icon = session('icon');
-                @endphp
-                @if ($message)
-                    <div class="alert alert-{{ $alert }} alert-dismissible fade show mt-5" role="alert">
-                        <div class="fs-5">
-                            <i class="{{ $icon }} me-2"></i>
-                            {{ $message }}
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-
-                <form action="{{ route('complaint.store') }}" method="POST" enctype="multipart/form-data" class="mt-5">
-                    @csrf
-                    <div class="card bg-transparent border-0 mb-4 shadow-sm">
-                        <div class="card-header bg-transparent border-0">
-                            <h3>Pelapor</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label for="reporter_category_id" class="form-label">
-                                    Kategori
-                                    <span class="text-danger fw-bold">*</span>
-                                </label>
-                                <select name="reporter_category_id" id="reporter_category_id"
-                                    class="form-select @error('reporter_category_id')is-invalid @enderror">
-                                    <option selected disabled value="">Pilih...</option>
-                                    @foreach ($reporterCategory as $item)
-                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
-                                    @endforeach
-                                </select>
-                                @error('reporter_category_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="reporter_name" class="form-label">
-                                    Nama
-                                    <span class="text-danger fw-bold">*</span>
-                                </label>
-                                <input type="text" name="reporter_name" id="reporter_name"
-                                    value="{{ old('reporter_name') }}"
-                                    class="form-control @error('reporter_name')is-invalid @enderror">
-                                @error('reporter_name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="reporter_phone_number" class="form-label">Nomor HP/Telpon</label>
-                                <input type="number" name="reporter_phone_number" id="reporter_phone_number"
-                                    value="{{ old('reporter_phone_number') }}"
-                                    class="form-control @error('reporter_phone_number')is-invalid @enderror">
-                                @error('reporter_phone_number')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="reporter_email" class="form-label">Email</label>
-                                <input type="text" name="reporter_email" id="reporter_email"
-                                    value="{{ old('reporter_email') }}"
-                                    class="form-control @error('reporter_email')is-invalid @enderror">
-                                @error('reporter_email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div>
-                                <label for="reporter_address" class="form-label">Alamat</label>
-                                <textarea name="reporter_address" id="reporter_address" rows="3"
-                                    class="form-control @error('reporter_address')is-invalid @enderror"></textarea>
-                                @error('reporter_address')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card bg-transparent border-0 mb-4 shadow-sm">
-                        <div class="card-header bg-transparent border-0">
-                            <h3>Terlapor</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label for="suspect_name" class="form-label">
-                                    Nama
-                                    <span class="text-danger fw-bold">*</span>
-                                </label>
-                                <input type="text" name="suspect_name" id="suspect_name"
-                                    value="{{ old('suspect_name') }}"
-                                    class="form-control @error('suspect_name')is-invalid @enderror">
-                                @error('suspect_name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="suspect_phone_number" class="form-label">Nomor HP/Telpon</label>
-                                <input type="number" name="suspect_phone_number" id="suspect_phone_number"
-                                    class="form-control">
-                                <div id="suspect_phone_number" class="form-text">Jika diketahui.</div>
-
-                            </div>
-                            <div class="mb-3">
-                                <label for="suspect_email" class="form-label">Email</label>
-                                <input type="email" name="suspect_email" id="suspect_email"
-                                    value="{{ old('suspect_email') }}"
-                                    class="form-control @error('suspect_email')is-invalid @enderror">
-                                <div id="email" class="form-text">Jika diketahui.</div>
-                                @error('suspect_email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div>
-                                <label for="suspect_address" class="form-label">Alamat</label>
-                                <textarea name="suspect_address" id="suspect_address" rows="3"
-                                    class="form-control @error('suspect_address')is-invalid @enderror"></textarea>
-                                <div id="suspect_address" class="form-text">Jika diketahui.</div>
-                                @error('suspect_address')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card bg-transparent border-0 mb-4 shadow-sm">
-                        <div class="card-header bg-transparent border-0">
-                            <h3>Aduan</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label for="complaint_category_id" class="form-label">
-                                    Kategori
-                                    <span class="text-danger fw-bold">*</span>
-                                </label>
-                                <select name="complaint_category_id" id="complaint_category_id"
-                                    class="form-select @error('reporter_category_id')is-invalid @enderror">
-                                    <option value="">Pilih...</option>
-                                    @foreach ($complaintCategory as $item)
-                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
-                                    @endforeach
-                                </select>
-                                @error('reporter_category_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="date" class="form-label">
-                                    Waktu kejadian
-                                    <span class="text-danger fw-bold">*</span>
-                                </label>
-                                <input type="datetime-local" name="date" id="date" value="{{ old('date') }}"
-                                    class="form-control @error('date')is-invalid @enderror">
-                                @error('date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="location" class="form-label">
-                                    Lokasi kejadian
-                                    <span class="text-danger fw-bold">*</span>
-                                </label>
-                                <input type="text" name="location" id="location" value="{{ old('location') }}"
-                                    class="form-control @error('location')is-invalid @enderror">
-                                @error('location')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="title" class="form-label">
-                                    Judul
-                                    <span class="text-danger fw-bold">*</span>
-                                </label>
-                                <input type="text" name="title" id="title" value="{{ old('title') }}"
-                                    class="form-control @error('title')is-invalid @enderror">
-                                @error('title')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">
-                                    Keterangan
-                                    <span class="text-danger fw-bold">*</span>
-                                </label>
-                                <textarea name="description" id="description" rows="3"
-                                    class="form-control @error('description')is-invalid @enderror"></textarea>
-                                @error('description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div>
-                                <label for="attachment" class="form-label">
-                                    Lampiran bukti
-                                    <span class="text-danger fw-bold">*</span>
-                                </label>
-                                <input type="file" name="attachment[]" id="attachment" multiple
-                                    onchange="previewFiles()" class="form-control">
-                                <div class="preview-container" id="preview-container"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" id="submit" class="btn btn-primary">
-                            <span id="spinner" class="spinner-border spinner-border-sm d-none"></span>
-                            <i id="icon" class="bi bi-send me-2"></i>
-                            Kirim
-                        </button>
-                    </div>
-                </form>
-            </div>
+        <div class="w-full">
+          <label for="reporter_category_id" class="mb-2 block text-sm font-medium text-gray-900">Kategori Pelapor <span class="text-red-500">*</span></label>
+          <select id="reporter_category_id" name="reporter_category_id"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            required>
+            <option selected disabled value="">Pilih Kategori</option>
+            @foreach ($reporterCategory as $item)
+              <option value="{{ $item->id }}">{{ $item->title }}</option>
+            @endforeach
+          </select>
         </div>
-    </section>
+        <div>
+          <label for="reporter_name" class="mb-2 block text-sm font-medium text-gray-900">Nama <span class="text-red-500">*</span></label>
+          <input type="text" id="reporter_name" name="reporter_name"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="Nama Pelapor" required />
+        </div>
+        <div>
+          <label for="reporter_phone_number" class="mb-2 block text-sm font-medium text-gray-900">No. HP</label>
+          <input type="text" id="reporter_phone_number" name="reporter_phone_number"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="No. HP" />
+        </div>
+        <div>
+          <label for="reporter_email" class="mb-2 block text-sm font-medium text-gray-900">Email</label>
+          <input type="email" id="reporter_email" name="reporter_email"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="Email" />
+        </div>
+        <div>
+          <label for="reporter_address" class="mb-2 block text-sm font-medium text-gray-900">Alamat</label>
+          <textarea id="reporter_address" name="reporter_address" rows="2"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="Alamat"></textarea>
+        </div>
+      </div>
+
+      {{-- Terlapor --}}
+      <div class="grid max-w-lg gap-4 bg-white border p-2 rounded">
+        <div class="pb-2 border-b-2">
+          <p class="text-2xl font-semibold">Terlapor</p>
+        </div>
+        <div>
+          <label for="suspect_name" class="mb-2 block text-sm font-medium text-gray-900">Nama <span class="text-red-500">*</span></label>
+          <input type="text" id="suspect_name" name="suspect_name"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="Nama" required />
+        </div>
+        <div>
+          <label for="suspect_phone_number" class="mb-2 block text-sm font-medium text-gray-900">No. HP</label>
+          <input type="text" id="suspect_phone_number"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="No. HP" />
+        </div>
+        <div>
+          <label for="suspect_email" class="mb-2 block text-sm font-medium text-gray-900">Email</label>
+          <input type="email" id="suspect_email" name="suspect_email"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="Email" />
+        </div>
+        <div>
+          <label for="suspect_address" class="mb-2 block text-sm font-medium text-gray-900">Alamat</label>
+          <textarea id="suspect_address" name="suspect_address" rows="2"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="Write your thoughts here..."></textarea>
+        </div>
+      </div>
+
+      {{-- Isi Aduan --}}
+      <div class="grid max-w-lg gap-4 bg-white border p-2 rounded">
+        <div class="pb-2 border-b-2">
+          <p class="text-2xl font-semibold">Aduan</p>
+        </div>
+        <div class="w-full">
+          <label for="complaint_category_id" class="mb-2 block text-sm font-medium text-gray-900">Kategori
+            Pidana <span class="text-red-500">*</span></label>
+          <select id="complaint_category_id" name="complaint_category_id"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            required>
+            <option selected value="">Pilih Kategori</option>
+            @foreach ($complaintCategory as $item)
+              <option value="{{ $item->id }}">{{ $item->title }}</option>
+            @endforeach
+          </select>
+        </div>
+s
+        <div class="relative grid">
+          <label for="date" class="mb-2 block text-sm font-medium text-gray-900">Waktu Kejadian <span class="text-red-500">*</span></label>
+          <input type="date" name="date" class="" required>
+        </div>
+
+        <div>
+          <label for="location" class="mb-2 block text-sm font-medium text-gray-900">Lokasi Kejadian <span class="text-red-500">*</span></label>
+          <input type="text" id="location" name="location"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="Lokasi Kejadian" required />
+        </div>
+        <div>
+          <label for="title" class="mb-2 block text-sm font-medium text-gray-900">Judul <span class="text-red-500">*</span></label>
+          <input type="text" id="title" name="title"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="Judul" required />
+        </div>
+        <div>
+          <label for="description" class="mb-2 block text-sm font-medium text-gray-900">Keterangan <span class="text-red-500">*</span></label>
+          <textarea id="description" rows="4" name="description"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
+            placeholder="Keterangan" required></textarea>
+        </div>
+        <div>
+          <label class="mb-2 block text-base font-medium text-gray-900" for="attachment">Lampiran Bukti <span class="text-red-500">*</span></label>
+          <input name="attachment[]" multiple onchange="previewFiles()"
+            class="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-base text-gray-900 focus:outline-none"
+            id="attachment" type="file" />
+          <div class="preview-container" id="preview-container"></div>
+        </div>
+      </div>
+      <button type="submit"
+        class="px-3 py-2 bg-green-600 hover:bg-green-700 rounded-md text-sm font-medium text-white">SUBMIT</button>
+    </form>
+  </section>
 @endsection
 
-@push('style')
-    <style>
-        .preview-container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .preview-item {
-            margin: 10px;
-        }
-
-        .preview-item img,
-        .preview-item video,
-        .preview-item iframe {
-            max-width: 150px;
-            max-height: 150px;
-        }
-    </style>
-@endpush
-
 @push('script')
-    <script>
-        const submit = document.getElementById('submit');
-        const icon = document.getElementById('icon');
-        const spinner = document.getElementById('spinner');
-        document.addEventListener('DOMContentLoaded', function() {
-            submit.addEventListener('click', function() {
-                icon.classList.add('d-none');
-                spinner.classList.remove('d-none');
-            });
-        });
-    </script>
+  <script>
+    const submit = document.getElementById('submit');
+    const icon = document.getElementById('icon');
+    const spinner = document.getElementById('spinner');
+    document.addEventListener('DOMContentLoaded', function() {
+      submit.addEventListener('click', function() {
+        icon.classList.add('d-none');
+        spinner.classList.remove('d-none');
+      });
+    });
+  </script>
 
-    <script>
-        function previewFiles() {
-            var previewContainer = document.getElementById('preview-container');
-            var files = document.getElementById('attachment').files;
+  <script>
+    function previewFiles() {
+      var previewContainer = document.getElementById('preview-container');
+      var files = document.getElementById('attachment').files;
 
-            previewContainer.innerHTML = '';
+      previewContainer.innerHTML = '';
 
-            if (files) {
-                [].forEach.call(files, readAndPreview);
-            }
+      if (files) {
+        [].forEach.call(files, readAndPreview);
+      }
 
-            function readAndPreview(file) {
-                if (!/\.(jpe?g|png|gif|webp|mp4|webm|pdf)$/i.test(file.name)) {
-                    return alert(file.name + " is not an image, video, or PDF");
-                }
-
-                var reader = new FileReader();
-
-                reader.addEventListener("load", function() {
-                    var previewItem = document.createElement('div');
-                    previewItem.classList.add('preview-item');
-
-                    if (file.type.startsWith('image')) {
-                        var image = new Image();
-                        image.src = this.result;
-                        previewItem.appendChild(image);
-                    } else if (file.type.startsWith('video')) {
-                        var video = document.createElement('video');
-                        video.src = this.result;
-                        video.controls = true;
-                        previewItem.appendChild(video);
-                    } else if (file.type === 'application/pdf') {
-                        var iframe = document.createElement('iframe');
-                        iframe.src = this.result;
-                        previewItem.appendChild(iframe);
-                    }
-
-                    previewContainer.appendChild(previewItem);
-                });
-
-                reader.readAsDataURL(file);
-            }
+      function readAndPreview(file) {
+        if (!/\.(jpe?g|png|gif|webp|mp4|webm|pdf)$/i.test(file.name)) {
+          return alert(file.name + " is not an image, video, or PDF");
         }
-    </script>
+
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function() {
+          var previewItem = document.createElement('div');
+          previewItem.classList.add('preview-item');
+
+          if (file.type.startsWith('image')) {
+            var image = new Image();
+            image.src = this.result;
+            previewItem.appendChild(image);
+          } else if (file.type.startsWith('video')) {
+            var video = document.createElement('video');
+            video.src = this.result;
+            video.controls = true;
+            previewItem.appendChild(video);
+          } else if (file.type === 'application/pdf') {
+            var iframe = document.createElement('iframe');
+            iframe.src = this.result;
+            previewItem.appendChild(iframe);
+          }
+
+          previewContainer.appendChild(previewItem);
+        });
+
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
 @endpush
