@@ -132,7 +132,6 @@
             @endforeach
           </select>
         </div>
-s
         <div class="relative grid">
           <label for="date" class="mb-2 block text-sm font-medium text-gray-900">Waktu Kejadian <span class="text-red-500">*</span></label>
           <input type="date" name="date" class="" required>
