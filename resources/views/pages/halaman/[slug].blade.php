@@ -24,6 +24,13 @@
 
 @section('content')
   <section class="w-full max-w-screen-md mx-auto py-10 space-y-4">
+    @if (!$data)
+      <div class="w-full">
+        <p class="fs-5 text-danger mb-5 pb-5">
+          Hasil tidak ditemukan.
+        </p>
+      </div>
+    @else
     <nav class="flex" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
         <li class="inline-flex items-center">
@@ -113,8 +120,7 @@
         Salin tautan
       </button>
     </nav>
-
-
+    @endif
   </section>
 @endsection
 

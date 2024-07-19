@@ -22,6 +22,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Support\Facades\Storage;
@@ -48,6 +49,15 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+            ])
+            ->navigationGroups([
+              NavigationGroup::make()->label('Pengaduan'),
+              NavigationGroup::make()->label('Media'),
+              NavigationGroup::make()->label('Blog'),
+              NavigationGroup::make()->label('Fitur'),
+              NavigationGroup::make()->label('Config System'),
+              NavigationGroup::make()->label('Master'),
+              NavigationGroup::make()->label('Pengaturan'),
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

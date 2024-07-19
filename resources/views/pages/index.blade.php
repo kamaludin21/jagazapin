@@ -2,7 +2,7 @@
   use Carbon\Carbon;
   $slideshow = App\Models\SlideShow::show()->limit(5)->orderByDesc('created_at')->get();
   $news = App\Models\Article::show()->limit(9)->orderByDesc('published_at')->get();
-  $newsSlide = App\Models\Article::show()->limit(2)->orderByDesc('published_at')->get();
+  // $newsSlide = App\Models\Article::show()->limit(2)->orderByDesc('published_at')->get();
   $category = App\Models\category::show()->limit(10)->inRandomOrder()->get();
   $newsRandom = App\Models\Article::show()->limit(8)->inRandomOrder()->get();
   $new = App\Models\Article::show()->limit(3)->orderByDesc('published_at')->get();
@@ -23,7 +23,7 @@
           </div>
         </div>
       @else
-        <div class="h-full w-full md:w-2/3">
+        <div class="h-full w-full">
           {{-- Main --}}
           <div id="carouselSlideshow" class="bg-slate-200 carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner h-96">
@@ -48,16 +48,14 @@
             </button>
           </div>
         </div>
-        <div class="hidden h-96 w-full md:w-1/3 md:flex flex-col gap-2">
-          {{-- 2 Other --}}
+        {{-- <div class="hidden h-96 w-full md:w-1/3 md:flex flex-col gap-2">
           @foreach ($newsSlide as $item)
             <div class="flex-1 overflow-hidden">
               <img class="h-full w-full object-cover"
                 src="{{ $item->file ? asset('storage/' . $item->file) : asset('image/default-img.svg') }}" alt="">
             </div>
           @endforeach
-
-        </div>
+        </div> --}}
       @endif
     </div>
 

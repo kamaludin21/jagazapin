@@ -231,13 +231,6 @@ class ComplaintResource extends Resource
                     Tables\Actions\EditAction::make()->color('success'),
                     Tables\Actions\DeleteAction::make()->color('danger'),
                 ]),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
             ]);
     }
 

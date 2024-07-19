@@ -1,5 +1,5 @@
 @props(['data'])
-<nav class="px-2 sm:px-0 bg-white border-b w-full mx-auto">
+<nav class="px-2 sm:px-0 bg-white border-y py-1 w-full mx-auto">
   {{-- Mobile --}}
   <ul class="block md:hidden">
     <div class="flex items-center w-full justify-between">
