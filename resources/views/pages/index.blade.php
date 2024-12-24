@@ -174,7 +174,7 @@
 @endsection
 
 @push('script')
-  <script src="{{ asset('/js/masonry.pkgd.min.js') }}"></script>
+  <script src="{{ secure_asset('/js/masonry.pkgd.min.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
   <script>
     $(document).ready(function() {

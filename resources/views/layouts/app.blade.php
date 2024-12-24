@@ -10,17 +10,17 @@
 
     {{-- @stack('seo') --}}
     <title>{{ env('APP_NAME') }}</title>
-    <link rel="shortcut icon" href="{{ asset('image/kejati-logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ secure_asset('image/kejati-logo.png') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/dist/icons/font/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('/dist/icons/font/bootstrap-icons.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('owlcarousel/dist/assets/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('owlcarousel/dist/assets/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('owlcarousel/dist/assets/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('owlcarousel/dist/assets/owl.theme.default.min.css') }}">
     @livewireStyles
 
 
@@ -144,9 +144,9 @@
     @include('layouts.sections.navbar')
     @yield('container')
     @include('layouts.sections.footer')
-    <script src="{{ asset('/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('/js/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('/owlcarousel/dist/owl.carousel.min.js') }}"></script>
+    <script src="{{ secure_asset('/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ secure_asset('/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ secure_asset('/owlcarousel/dist/owl.carousel.min.js') }}"></script>
     @stack('script')
     @livewireScripts
 </body>

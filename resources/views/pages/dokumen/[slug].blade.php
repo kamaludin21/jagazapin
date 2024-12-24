@@ -45,7 +45,7 @@
     <h3 class="text-3xl font-bold">{{ $data->title }}</h3>
 
     <iframe class="w-full h-screen"
-      src="/pdfjs/web/viewer.html?file={{ asset('storage/' . $data->attachment) ?? '/default.pdf' }}&zoom=150&toolbar=0" frameborder="0"></iframe>
+      src="/pdfjs/web/viewer.html?file={{ secure_asset('storage/' . $data->attachment) ?? '/default.pdf' }}&zoom=150&toolbar=0" frameborder="0"></iframe>
 
   </section>
 @endsection
