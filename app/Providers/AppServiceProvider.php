@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         return hash_equals($signature, (string) $request->query('signature', ''));
       }
     );
-    UrlGenerator::macro('alternateHasValidSignature', function (Request
+    URL::macro('alternateHasValidSignature', function (Request
     $request, $absolute = true, array $ignoreQuery = []) {
       return URL::alternateHasCorrectSignature($request, $absolute, $ignoreQuery)
         && URL::signatureHasNotExpired($request);
